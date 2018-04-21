@@ -1,6 +1,6 @@
 #include <cstdlib>
 #include <iostream>
-#include <GL/glut.h>
+#include <glut.h>		//Eu removi o GL/ para executar no Visual Studio, recoloquem se precisar
 #include <cmath>
 
 GLint WINDOW_WIDTH  = 500,
@@ -12,6 +12,8 @@ void render();
 void mouse_click(GLint button, GLint action, GLint x, GLint y);
 void updateGame(int value);
 
+void drawEllipse(float posX, float posY, float radiusX, float radiusY, float r, float g, float b);
+
 int dt = 1000/60;
 
 double rad2Deg = (180.0/3.141592653589793238463);
@@ -19,7 +21,7 @@ double rad2Deg = (180.0/3.141592653589793238463);
 class TestTriangle {
     GLfloat posX, posY, size, angSpeed, frontSpeed;
     GLfloat angleDir, angDegDir, direction[2];
-    GLfloat angThreshold = 0.1, posThreshold = 0.5;
+    GLfloat angThreshold = 0.1, posThreshold = 2;	//Originalmente era 0.5, mas as vezes a figura simplesmente escapava do ponto
     int reachedAngle = 1, shouldMove = 0;
     GLfloat currAngleSpeed, targetAngle, targetX, targetY;
     GLfloat angleOffset = 3.14/2;
@@ -66,7 +68,7 @@ void TestTriangle::target(GLfloat x, GLfloat y){
 }
 
 void TestTriangle::update(double delta){
-    if(!reachedAngle){
+	if (!reachedAngle) {		//Realiza cálculo de ângulo a ser encontrado
         angleDir += currAngleSpeed * delta/1000;
         float delta = angleDir - targetAngle;
         if(std::abs(delta) <= angThreshold){
@@ -79,11 +81,12 @@ void TestTriangle::update(double delta){
 
         angDegDir = angleDir * rad2Deg;       
     }
-    if(shouldMove){
+    if(shouldMove){			//Realiza cálculo de movimentação do objeto
         posX += direction[0] * delta/1000 * frontSpeed;
         posY += direction[1] * delta/1000 * frontSpeed;
 
         float distance = sqrt(pow(targetX - posX,2) + pow(targetY - posY,2));
+
         if(distance <= posThreshold){
             shouldMove = 0;
         }
@@ -95,28 +98,47 @@ void TestTriangle::draw(){
     glPointSize(size);
 
     glPushMatrix();
-    glTranslatef(posX,posY, 0);    
+    glTranslatef(posX,posY, 0);    //Cria uma matriz de transformações: translação para origem, rotação e translação de volta ao local incial
     glRotatef(angDegDir,0,0,1);
     glTranslatef(-posX,-posY,0);
     
-    
-    
+						//Todos os parâmetros estão baseados na variável "size", para que a aranha possa ser facilmente modificada
+	float raioXC = 0.3 * size,		
+		raioYC = 0.4 * size,
+		raioXA = 0.4 * size,
+		raioYA = 0.5 * size,
+		raioOlho = 0.03 * size,
 
-    glBegin(GL_TRIANGLES);
-    glColor3f(0,0,0);
-    glVertex2f(posX - size/2, posY + size/2);
-    glVertex2f(posX, posY - size/2);
-    glVertex2f(posX + size/2, posY + size/2);
-    glEnd();
-    
-    glPopMatrix();    
+		offset = size / 4;
+	
+
+	drawEllipse(posX, posY - offset, raioXC, raioYC, 0, 0, 0);//Elipse do cefalotorax
+	drawEllipse(posX, posY + offset, raioXA, raioYA, 0, 0, 0);//Elipse do abdome
+
+	drawEllipse(posX + raioXC / 5, posY - raioYC, raioOlho, raioOlho, 1, 0, 0);	//Desenhando os olhos
+	drawEllipse(posX - raioXC / 5, posY - raioYC, raioOlho, raioOlho, 1, 0, 0);
+	
+
+    glPopMatrix();
      
     /* glBegin(GL_POINTS);
         glVertex2f(posX, posY);
     glEnd(); */
 }
 
+void drawEllipse(float posX, float posY, float radiusX, float radiusY, float r, float g, float b) {
+	glBegin(GL_LINE_LOOP);	//Inicia o processo de desenhar uma elipse
+	glColor3f(r, g, b);
+	for (int d = 0; d < 360; d++) {
+		float rad = d / rad2Deg;
+		glVertex2f(posX + cos(rad)*radiusX, posY + sin(rad)*radiusY);
+		glVertex2f(posX , posY);
+	}
+	glEnd();
+}
+
 TestTriangle tri = TestTriangle(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, 100, 1,100);
+//Petição: batizar nossa aranha de Muffet OU Peter Parker
 
 int main(int argc, char* argv[])
 {
