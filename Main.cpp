@@ -1,7 +1,13 @@
 #include <cstdlib>
 #include <iostream>
+<<<<<<< HEAD
 #include <GL/glut.h>		
+=======
+#include <GL/glut.h>		//Eu removi o GL/ para executar no Visual Studio, recoloquem se precisar
+>>>>>>> origin/Lag's-Spider
 #include <cmath>
+#include "Spider.h"
+
 
 GLint WINDOW_WIDTH  = 500,
       WINDOW_HEIGHT = 500;
@@ -15,8 +21,6 @@ void updateGame(int value);
 void drawEllipse(float posX, float posY, float radiusX, float radiusY, float r, float g, float b);
 
 int dt = 1000/60;
-
-double rad2Deg = (180.0/3.141592653589793238463);
 
 class TestTriangle {
     GLfloat posX, posY, size, angSpeed, frontSpeed;
@@ -68,7 +72,7 @@ void TestTriangle::target(GLfloat x, GLfloat y){
 }
 
 void TestTriangle::update(double delta){
-	if (!reachedAngle) {		//Realiza cálculo de ângulo a ser encontrado
+	if (!reachedAngle) {		//Realiza cï¿½lculo de ï¿½ngulo a ser encontrado
         angleDir += currAngleSpeed * delta/1000;
         float delta = angleDir - targetAngle;
         if(std::abs(delta) <= angThreshold){
@@ -81,7 +85,7 @@ void TestTriangle::update(double delta){
 
         angDegDir = angleDir * rad2Deg;       
     }
-    if(shouldMove){			//Realiza cálculo de movimentação do objeto
+    if(shouldMove){			//Realiza cï¿½lculo de movimentaï¿½ï¿½o do objeto
         posX += direction[0] * delta/1000 * frontSpeed;
         posY += direction[1] * delta/1000 * frontSpeed;
 
@@ -98,11 +102,11 @@ void TestTriangle::draw(){
     glPointSize(size);
 
     glPushMatrix();
-    glTranslatef(posX,posY, 0);    //Cria uma matriz de transformações: translação para origem, rotação e translação de volta ao local incial
+    glTranslatef(posX,posY, 0);    //Cria uma matriz de transformaï¿½ï¿½es: translaï¿½ï¿½o para origem, rotaï¿½ï¿½o e translaï¿½ï¿½o de volta ao local incial
     glRotatef(angDegDir,0,0,1);
     glTranslatef(-posX,-posY,0);
     
-						//Todos os parâmetros estão baseados na variável "size", para que a aranha possa ser facilmente modificada
+						//Todos os parï¿½metros estï¿½o baseados na variï¿½vel "size", para que a aranha possa ser facilmente modificada
 	float raioXC = 0.3 * size,		
 		raioYC = 0.4 * size,
 		raioXA = 0.4 * size,
@@ -139,7 +143,7 @@ void drawEllipse(float posX, float posY, float radiusX, float radiusY, float r, 
 }
 
 TestTriangle tri = TestTriangle(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, 100, 1,100);
-//Petição: batizar nossa aranha de Muffet OU Peter Parker
+//Petiï¿½ï¿½o: batizar nossa aranha de Muffet OU Peter Parker
 
 int main(int argc, char* argv[])
 {
