@@ -1,10 +1,6 @@
 #include <cstdlib>
 #include <iostream>
-<<<<<<< HEAD
 #include <GL/glut.h>		
-=======
-#include <GL/glut.h>		//Eu removi o GL/ para executar no Visual Studio, recoloquem se precisar
->>>>>>> origin/Lag's-Spider
 #include <cmath>
 #include "Spider.h"
 

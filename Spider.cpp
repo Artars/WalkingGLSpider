@@ -94,12 +94,13 @@ void Spider::draw(){
 }
 
 void Spider::drawEllipse(float posX, float posY, float radiusX, float radiusY, float r, float g, float b) {
-	glBegin(GL_LINE_LOOP);	//Inicia o processo de desenhar uma elipse
-	glColor3f(r, g, b);
-	for (int d = 0; d < 360; d++) {
+	glBegin(GL_TRIANGLE_FAN);	//Inicia o processo de desenhar uma elipse
+	glColor3f(r, g, b);			//Cria um conjunto de triângulos com um ponto no centro da elipse
+	glVertex2f(posX, posY);
+
+	for (int d = 0; d <= 360; d++) {	//E os outros dois pontos nas bordas, completando um círculo de 360 graus
 		float rad = d / rad2Deg;
 		glVertex2f(posX + cos(rad)*radiusX, posY + sin(rad)*radiusY);
-		glVertex2f(posX , posY);
 	}
 	glEnd();
 }
