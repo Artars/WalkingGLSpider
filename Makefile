@@ -1,5 +1,5 @@
 all:
-	g++ -o spider Main.cpp -lglut -lGLU -lGL -lm
+	g++ -o spider Main.cpp Spider.cpp Legs.cpp -lglut -lGLU -lGL -lm
 
 clean:
 	rm spider
