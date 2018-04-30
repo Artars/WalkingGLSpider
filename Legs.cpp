@@ -25,38 +25,13 @@ Legs::Legs(GLint x1, GLint y1, GLint x2, GLint y2, GLint x3, GLint y3) {
 }
 
 void Legs::drawLine(GLint x1, GLint y1, GLint x2, GLint y2) {
-      
-    int ydif = y2-y1;
-    int xdif = x2-x1;
-    int passo, yinc, xinc;   
+    glColor3f(0,0,0);
+    glLineWidth(5);
 
-      if (abs(xdif) > abs(ydif)){
-        passo = abs(xdif); 
-      } 
-
-      else{
-        passo = abs(ydif);             
-      }
-         
-      xinc = xdif/passo;            
-      yinc = ydif/passo;           
-      
-      x = x1;               
-      y = y1;              
-        
-      for(int k = 0; k < passo; k++){   
-          x = x + xinc;       
-          y = y + yinc;  
-
-          glColor3f(0,0, 0); 
-          glPointSize(3); 
-          
-          glBegin(GL_POINTS); 
-              glVertex2i(x,y);
-          glEnd();
-      }
-
-      glutPostRedisplay(); 
+    glBegin(GL_LINES);
+        glVertex2f(x1, y1);
+        glVertex2f(x2, y2);
+    glEnd();
 
 
 }

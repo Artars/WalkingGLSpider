@@ -25,6 +25,7 @@ class Legs{
         Point getPonto0();
         Point getPonto1();
         Point getPonto2();
+        
         void drawLeg();
 };
 
