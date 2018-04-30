@@ -14,6 +14,7 @@ class Spider {
     int reachedAngle = 1, shouldMove = 0;
     GLfloat currAngleSpeed, targetAngle, targetX, targetY;
     GLfloat angleOffset = 3.14/2;
+    Legs* legs[8];
     public:
         Spider (GLfloat x,GLfloat y,GLfloat s,GLfloat angS,GLfloat froS);
         void target(GLfloat x, GLfloat y);

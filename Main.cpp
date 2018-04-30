@@ -20,7 +20,7 @@ void drawEllipse(float posX, float posY, float radiusX, float radiusY, float r, 
 
 int dt = 1000/60;
 
-Legs perna = Legs(100, 200, 300, 400, 600, 400);
+//Legs perna = Legs(100, 200, 300, 400, 600, 400);
 
 
 class TestTriangle {
@@ -149,8 +149,10 @@ void drawEllipse(float posX, float posY, float radiusX, float radiusY, float r, 
 
 //Legs leg = Legs(100, 200, 300, 400, 500);
 
-TestTriangle tri = TestTriangle(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, 100, 1,100);
+//TestTriangle tri = TestTriangle(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, 100, 1,100);
 //Peti��o: batizar nossa aranha de Muffet OU Peter Parker
+
+Spider* muffet = new Spider(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, 100, 1,100);
 
 int main(int argc, char* argv[])
 {
@@ -193,7 +195,7 @@ void render()
 
   //std::cout<<"Desenho\n";
 
-  tri.draw();
+  muffet->draw();
 
   glFlush();
 }
@@ -223,21 +225,15 @@ void mouse_click(GLint button, GLint action, GLint x, GLint y)
     if(button == GLUT_LEFT_BUTTON){
         if(action == GLUT_DOWN) {
             cout << "Clicou em X= " << x << " , Y= " << y << ".\n";
-            cout << perna.getPonto0().x << endl;
-            cout << perna.getPonto0().y << endl;
-            cout << perna.getPonto1().x << endl;
-            cout << perna.getPonto1().y << endl;
-            cout << perna.getPonto2().x << endl;
-            cout << perna.getPonto2().y<< endl;
         }
-        tri.target(x,y);
+        muffet->target(x,y);
         //tri.setPos(x,y);
     }
 
 }
 
 void updateGame(int value) {
-    tri.update(dt);
+    muffet->update(dt);
 
     glutTimerFunc(dt, updateGame, 0);
     glutPostRedisplay();

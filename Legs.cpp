@@ -22,6 +22,11 @@ Legs::Legs(GLint x1, GLint y1, GLint x2, GLint y2, GLint x3, GLint y3) {
     pontos[1].y = y2;
     pontos[2].x = x3;
     pontos[2].y = y3;
+
+    scale[0] = 4;
+    scale[1] = 1;
+    position[0] = 0;
+    position[1] = 0;
 }
 
 void Legs::drawLine(GLint x1, GLint y1, GLint x2, GLint y2) {
@@ -62,15 +67,17 @@ void Legs::drawLine(GLint x1, GLint y1, GLint x2, GLint y2) {
 }
 
 void Legs::setPosition(GLfloat x, GLfloat y) {
-
+    position[0] = x;
+    position[1] = y;
 }
 
 void Legs::setRotation(GLfloat angle) {
-
+    this->angle = angle;
 }
 
 void Legs::setScale(GLfloat x, GLfloat y) {
-
+    scale[0] = x;
+    scale[1] = y;
 }
 
 Point Legs::getPonto0() {
@@ -85,7 +92,22 @@ Point Legs::getPonto2() {
     return pontos[2];
 }
 
-void Legs::drawLeg() {
-    drawLine(pontos[0].x, pontos[0].y, pontos[1].x, pontos[1].y);
-    drawLine(pontos[1].x, pontos[1].y, pontos[2].x, pontos[2].y);
+void Legs::draw() {
+    //drawLine(pontos[0].x, pontos[0].y, pontos[1].x, pontos[1].y);
+    //drawLine(pontos[1].x, pontos[1].y, pontos[2].x, pontos[2].y);
+
+    glPushMatrix();    
+    glTranslatef(position[0], position[1], 0);
+    glRotatef(angle,0,0,1);
+    
+
+
+    glBegin(GL_QUADS);
+        glVertex2f(0,scale[1]/2);
+        glVertex2f(scale[0],scale[1]/2);
+        glVertex2f(scale[0],-scale[1]/2);
+        glVertex2f(0,-scale[1]/2);
+    glEnd();
+
+    glPopMatrix();
 }

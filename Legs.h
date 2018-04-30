@@ -18,14 +18,15 @@ class Legs{
 
     public:
         Legs(GLint x1, GLint y1, GLint x2, GLint y2, GLint x3, GLint y3);
-        void drawLine(GLint x1, GLint y1, GLint x2, GLint y2);
         void setPosition(GLfloat x, GLfloat y);
         void setRotation(GLfloat angle);
         void setScale(GLfloat x, GLfloat y);
         Point getPonto0();
         Point getPonto1();
         Point getPonto2();
-        void drawLeg();
+        void draw();
+    private:
+        void drawLine(GLint x1, GLint y1, GLint x2, GLint y2);
 };
 
 
