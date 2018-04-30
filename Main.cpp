@@ -20,7 +20,16 @@ void drawEllipse(float posX, float posY, float radiusX, float radiusY, float r, 
 
 int dt = 1000/60;
 
-Legs perna = Legs(100, 200, 300, 400, 600, 400);
+Legs perna[8] = {Legs(254, 282, 200, 200, 230, 150),
+                  Legs(237, 289, 200, 200, 230, 150),
+                  Legs(205, 285, 200, 200, 230, 150),
+                  Legs(184, 272, 200, 200, 230, 150),
+                  Legs(184, 252, 200, 150, 230, 120),
+                  Legs(205, 235, 200, 150, 230, 120),
+                  Legs(237, 259, 200, 150, 230, 120),
+                  Legs(254, 252, 200, 150, 230, 120)};
+
+
 
 
 class TestTriangle {
@@ -194,6 +203,16 @@ void render()
   //std::cout<<"Desenho\n";
 
   tri.draw();
+  perna[0].drawLeg();
+  perna[1].drawLeg();
+  perna[2].drawLeg();
+  perna[3].drawLeg();
+  perna[4].drawLeg();
+  perna[5].drawLeg();
+  perna[6].drawLeg();
+  perna[7].drawLeg();
+
+ 
 
   glFlush();
 }
@@ -223,13 +242,8 @@ void mouse_click(GLint button, GLint action, GLint x, GLint y)
     if(button == GLUT_LEFT_BUTTON){
         if(action == GLUT_DOWN) {
             cout << "Clicou em X= " << x << " , Y= " << y << ".\n";
-            cout << perna.getPonto0().x << endl;
-            cout << perna.getPonto0().y << endl;
-            cout << perna.getPonto1().x << endl;
-            cout << perna.getPonto1().y << endl;
-            cout << perna.getPonto2().x << endl;
-            cout << perna.getPonto2().y<< endl;
         }
+
         tri.target(x,y);
         //tri.setPos(x,y);
     }
