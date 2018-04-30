@@ -1,6 +1,6 @@
 #include "Legs.h"
 
-#lalala
+//lalala
 
 int x, y;
 
@@ -26,7 +26,7 @@ Legs::Legs(GLint x1, GLint y1, GLint x2, GLint y2, GLint x3, GLint y3) {
     pontos[2].y = y3;
 }
 
-void Legs::drawLine(GLint x1, GLint y1, GLint x2, GLint y2) {
+void Legs::drawLinha(GLint x1, GLint y1, GLint x2, GLint y2) {
     glColor3f(0,0,0);
     glLineWidth(5);
 
