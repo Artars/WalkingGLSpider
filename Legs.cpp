@@ -31,6 +31,16 @@ Legs* Legs::getChild() {
     return child;
 }
 
+void Legs::drawLinha(GLint x1, GLint y1, GLint x2, GLint y2) {
+    glColor3f(0,0,0);
+    glLineWidth(5);
+
+    glBegin(GL_LINES);
+        glVertex2f(x1, y1);
+        glVertex2f(x2, y2);
+    glEnd();
+}
+
 void Legs::drawLine(GLint x1, GLint y1, GLint x2, GLint y2) {
       int xinc, yinc;
       GLint ydif = y2-y1;
@@ -98,10 +108,10 @@ void Legs::draw() {
     //drawLine(pontos[0].x, pontos[0].y, pontos[1].x, pontos[1].y);
     //drawLine(pontos[1].x, pontos[1].y, pontos[2].x, pontos[2].y);
 
-    glPushMatrix();    
+    glPushMatrix();
     glTranslatef(position[0], position[1], 0);
     glRotatef(-angle,0,0,1);
-    
+
 
 
     glBegin(GL_QUADS);
