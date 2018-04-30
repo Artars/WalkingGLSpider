@@ -32,8 +32,6 @@ void Legs::drawLine(GLint x1, GLint y1, GLint x2, GLint y2) {
         glVertex2f(x1, y1);
         glVertex2f(x2, y2);
     glEnd();
-
-
 }
 
 void Legs::setPosition(GLfloat x, GLfloat y) {
