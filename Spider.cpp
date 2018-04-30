@@ -12,17 +12,38 @@ Spider::Spider(GLfloat x,GLfloat y,GLfloat s,GLfloat angS,GLfloat froS){
     direction[1] = sin(angleDir - angleOffset);
 
     int i = 0;
-    for(i = 0; i < 8; i++){
-        legs[i] =  new Legs(0,0,0,0,0,0);
-        legs[i]->setScale(size, size/16);
-        if(i < 4)
-            legs[i]->setPosition(5, i*20);
-        else{
-            legs[i]->setPosition(-5, (i-4)*20);
-            legs[i]->setRotation(180);
-        }
+    GLfloat sizeX = size;
+    GLfloat sizeY = size/16;
 
-    }
+    //Perna dianteira direita
+    legs[0] = new Legs(10,10,sizeX,sizeY,60);
+    legs[0]->createChild(0,0,sizeX/2,sizeY, -30);    
+
+    //Perna traseira direita
+    legs[3] = new Legs(10,60,sizeX/2,sizeY, 30);
+    legs[3]->createChild(0,0,sizeX,sizeY, -90);
+
+    //Pernas intermediarias direitas
+    legs[1] = new Legs(10,20,sizeX/2,sizeY,30);
+    legs[1]->createChild(0,0,sizeX/2,sizeY, -90);        
+    legs[2] = new Legs(10,40,sizeX/2,sizeY,30);
+    legs[2]->createChild(0,0,sizeX/2,sizeY, -90);      
+
+    //Perna dianteira esquerda
+    legs[4] = new Legs(-10,10,sizeX,sizeY,120);
+    legs[4]->createChild(0,0,sizeX/2,sizeY, 30);    
+
+    //Perna traseira equerda
+    legs[7] = new Legs(-10,60,sizeX/2,sizeY, 150);
+    legs[7]->createChild(0,0,sizeX,sizeY, 90);
+
+    //Pernas intermediarias direitas
+    legs[5] = new Legs(-10,20,sizeX/2,sizeY,150);
+    legs[5]->createChild(0,0,sizeX/2,sizeY, 90);        
+    legs[6] = new Legs(-10,40,sizeX/2,sizeY,150);
+    legs[6]->createChild(0,0,sizeX/2,sizeY, 90);     
+    
+    
     //legs[0]->setRotation(180);
     
 }
@@ -43,6 +64,8 @@ void Spider::target(GLfloat x, GLfloat y){
     shouldMove = 0;
 
     currAngleSpeed = ( (targetAngle - angleDir) > 0)? angSpeed : -angSpeed;
+
+    EstadoAranha = P2;
 
     //Debug
     /* angleDir = targetAngle + angleOffset;
@@ -71,8 +94,12 @@ void Spider::update(double delta){
 
         if(distance <= posThreshold){
             shouldMove = 0;
+            EstadoAranha = P1;
         }
     }
+
+    updateLegs(delta);
+
 }
 
 void Spider::draw(){
@@ -88,7 +115,8 @@ void Spider::draw(){
     //Desenha pernas
     int i;
     for(i = 0; i < 8; i++){
-        legs[i]->draw();
+        if(legs[i] != NULL)
+            legs[i]->draw();
     }
 
 						//Todos os par�metros est�o baseados na vari�vel "size", para que a aranha possa ser facilmente modificada
@@ -127,4 +155,8 @@ void Spider::drawEllipse(float posX, float posY, float radiusX, float radiusY, f
 		glVertex2f(posX + cos(rad)*radiusX, posY + sin(rad)*radiusY);
 	}
 	glEnd();
+}
+
+void Spider::updateLegs(double delta){
+
 }

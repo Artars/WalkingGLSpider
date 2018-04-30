@@ -15,18 +15,20 @@ int arredonda(float a) {		//any x i.e 1>=x>=0.5 is rounded to 1
 }
 
 
-Legs::Legs(GLint x1, GLint y1, GLint x2, GLint y2, GLint x3, GLint y3) {
-    pontos[0].x = x1;
-    pontos[0].y = y1;
-    pontos[1].x = x2;
-    pontos[1].y = y2;
-    pontos[2].x = x3;
-    pontos[2].y = y3;
+Legs::Legs(GLfloat x, GLfloat y, GLfloat sizeX, GLfloat sizeY, GLfloat rotation) {
+    position[0] = x;
+    position[1] = y;
+    scale[0] = sizeX;
+    scale[1] = sizeY;
+    angle = rotation;
+}
 
-    scale[0] = 4;
-    scale[1] = 1;
-    position[0] = 0;
-    position[1] = 0;
+void Legs::createChild(GLfloat x, GLfloat y, GLfloat sizeX, GLfloat sizeY, GLfloat rotation) {
+    child = new Legs(scale[0] + x,y, sizeX, sizeY, rotation);
+}
+
+Legs* Legs::getChild() {
+    return child;
 }
 
 void Legs::drawLine(GLint x1, GLint y1, GLint x2, GLint y2) {
@@ -98,7 +100,7 @@ void Legs::draw() {
 
     glPushMatrix();    
     glTranslatef(position[0], position[1], 0);
-    glRotatef(angle,0,0,1);
+    glRotatef(-angle,0,0,1);
     
 
 
@@ -108,6 +110,9 @@ void Legs::draw() {
         glVertex2f(scale[0],-scale[1]/2);
         glVertex2f(0,-scale[1]/2);
     glEnd();
+
+    if(child != NULL)
+        child->draw();
 
     glPopMatrix();
 }

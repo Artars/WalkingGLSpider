@@ -3,7 +3,6 @@
 #include <GL/glut.h>
 #include <cmath>
 #include "Spider.h"
-#include "Legs.h"
 
 using namespace std;
 

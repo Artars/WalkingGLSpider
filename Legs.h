@@ -15,15 +15,18 @@ typedef struct Point{
 class Legs{
     GLfloat position[2], scale[2], angle;
     Point pontos[3];
+    Legs* child;
 
     public:
-        Legs(GLint x1, GLint y1, GLint x2, GLint y2, GLint x3, GLint y3);
+        Legs(GLfloat x, GLfloat y, GLfloat sizeX, GLfloat sizeY, GLfloat rotation);
         void setPosition(GLfloat x, GLfloat y);
         void setRotation(GLfloat angle);
         void setScale(GLfloat x, GLfloat y);
         Point getPonto0();
         Point getPonto1();
         Point getPonto2();
+        void createChild(GLfloat x, GLfloat y, GLfloat sizeX, GLfloat sizeY, GLfloat rotation);
+        Legs* getChild();
         void draw();
     private:
         void drawLine(GLint x1, GLint y1, GLint x2, GLint y2);
