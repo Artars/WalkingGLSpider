@@ -1,6 +1,9 @@
 #include "Legs.h"
 
-int Round(float a) {		//any x i.e 1>=x>=0.5 is rounded to 1
+int x, y;
+
+
+int arredonda(float a) {		//any x i.e 1>=x>=0.5 is rounded to 1
 
     if(a-int(a)>=0.5){
       return int(a)+1;
@@ -11,13 +14,17 @@ int Round(float a) {		//any x i.e 1>=x>=0.5 is rounded to 1
     }
 }
 
-Legs::Legs(GLint x1, GLint y1, GLint x2, GLint y2, GLint x3, GLint y3) {
-    position[0] = x1;
-    position[1] = y1;
 
+Legs::Legs(GLint x1, GLint y1, GLint x2, GLint y2, GLint x3, GLint y3) {
+    pontos[0].x = x1;
+    pontos[0].y = y1;
+    pontos[1].x = x2;
+    pontos[1].y = y2;
+    pontos[2].x = x3;
+    pontos[2].y = y3;
 }
 
-void Legs::drawLine(GLint x1, GLint y1, GLint x2, GLint y2, GLint x, GLint y) {
+void Legs::drawLine(GLint x1, GLint y1, GLint x2, GLint y2) {
       int xinc, yinc;
       GLint ydif = y2-y1;
       GLint xdif = x2-x1;
@@ -41,11 +48,11 @@ void Legs::drawLine(GLint x1, GLint y1, GLint x2, GLint y2, GLint x, GLint y) {
           x = x + xinc;
           y = y + yinc;
 
-      	  glColor3f(1,1,0);
+      	  glColor3f(0,0,0);
       		glPointSize(3);
 
       	  glBegin(GL_POINTS);
-              glVertex2i(Round(x),Round(y));
+              glVertex2i(arredonda(x),arredonda(y));
           glEnd();
       }
 
@@ -66,7 +73,19 @@ void Legs::setScale(GLfloat x, GLfloat y) {
 
 }
 
-void Legs::drawLeg(GLint x, GLint y) {
-  drawLine(100, 200, 300, 400, x, y);
-  drawLine(300, 400, 600, 400, x, y);
+Point Legs::getPonto0() {
+    return pontos[0];
+}
+
+Point Legs::getPonto1() {
+    return pontos[1];
+}
+
+Point Legs::getPonto2() {
+    return pontos[2];
+}
+
+void Legs::drawLeg() {
+    drawLine(pontos[0].x, pontos[0].y, pontos[1].x, pontos[1].y);
+    drawLine(pontos[1].x, pontos[1].y, pontos[2].x, pontos[2].y);
 }

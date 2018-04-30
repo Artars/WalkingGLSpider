@@ -20,9 +20,13 @@ void drawEllipse(float posX, float posY, float radiusX, float radiusY, float r, 
 
 int dt = 1000/60;
 
+Legs perna = Legs(100, 200, 300, 400, 600, 400);
+
+
 class TestTriangle {
     GLfloat posX, posY, size, angSpeed, frontSpeed;
     GLfloat angleDir, angDegDir, direction[2];
+    //Legs pernas[8];
     GLfloat angThreshold = 0.1, posThreshold = 2;	//Originalmente era 0.5, mas as vezes a figura simplesmente escapava do ponto
     int reachedAngle = 1, shouldMove = 0;
     GLfloat currAngleSpeed, targetAngle, targetX, targetY;
@@ -45,6 +49,7 @@ TestTriangle::TestTriangle(GLfloat x,GLfloat y,GLfloat s,GLfloat angS,GLfloat fr
     angDegDir = angleDir * rad2Deg;
     direction[0] = cos(angleDir - angleOffset);
     direction[1] = sin(angleDir - angleOffset);
+    //pernas[0] = Legs(100, 200, 300, 400, 600, 400);
 }
 
 void TestTriangle::target(GLfloat x, GLfloat y){
@@ -120,7 +125,7 @@ void TestTriangle::draw(){
 	drawEllipse(posX + raioXC / 5, posY - raioYC, raioOlho, raioOlho, 1, 0, 0);	//Desenhando os olhos
 	drawEllipse(posX - raioXC / 5, posY - raioYC, raioOlho, raioOlho, 1, 0, 0);
 
-  drawLeg(posX, posY);
+  //pernas[0].drawLeg();
 
 
     glPopMatrix();
@@ -141,6 +146,8 @@ void drawEllipse(float posX, float posY, float radiusX, float radiusY, float r, 
 	}
 	glEnd();
 }
+
+//Legs leg = Legs(100, 200, 300, 400, 500);
 
 TestTriangle tri = TestTriangle(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, 100, 1,100);
 //Peti��o: batizar nossa aranha de Muffet OU Peter Parker
@@ -216,7 +223,12 @@ void mouse_click(GLint button, GLint action, GLint x, GLint y)
     if(button == GLUT_LEFT_BUTTON){
         if(action == GLUT_DOWN) {
             cout << "Clicou em X= " << x << " , Y= " << y << ".\n";
-
+            cout << perna.getPonto0().x << endl;
+            cout << perna.getPonto0().y << endl;
+            cout << perna.getPonto1().x << endl;
+            cout << perna.getPonto1().y << endl;
+            cout << perna.getPonto2().x << endl;
+            cout << perna.getPonto2().y<< endl;
         }
         tri.target(x,y);
         //tri.setPos(x,y);
