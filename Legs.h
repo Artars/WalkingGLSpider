@@ -29,7 +29,7 @@ class Legs{
         Legs* getChild();
         void draw();
     private:
-        void drawLine(GLint x1, GLint y1, GLint x2, GLint y2);
+        void drawLine(GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2, GLfloat width);
 };
 
 
