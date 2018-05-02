@@ -10,6 +10,44 @@ Spider::Spider(GLfloat x,GLfloat y,GLfloat s,GLfloat angS,GLfloat froS){
     angDegDir = angleDir * rad2Deg;
     direction[0] = cos(angleDir - angleOffset);
     direction[1] = sin(angleDir - angleOffset);
+
+    int i = 0;
+    GLfloat sizeX = size;
+    GLfloat sizeY = size/16;
+
+    float offset = size / 2;
+
+    //Perna dianteira direita
+    legs[0] = new Legs(10,10 - offset,sizeX,sizeY,60);
+    legs[0]->createChild(0,0,sizeX/2,sizeY, -30);    
+
+    //Perna traseira direita
+    legs[3] = new Legs(10,60- offset,sizeX/2,sizeY, 30);
+    legs[3]->createChild(0,0,sizeX,sizeY, -90);
+
+    //Pernas intermediarias direitas
+    legs[1] = new Legs(10,20- offset,sizeX/2,sizeY,30);
+    legs[1]->createChild(0,0,sizeX/2,sizeY, -90);        
+    legs[2] = new Legs(10,40- offset,sizeX/2,sizeY,30);
+    legs[2]->createChild(0,0,sizeX/2,sizeY, -90);      
+
+    //Perna dianteira esquerda
+    legs[4] = new Legs(-10,10 - offset,sizeX,sizeY,120);
+    legs[4]->createChild(0,0,sizeX/2,sizeY, 30);    
+
+    //Perna traseira equerda
+    legs[7] = new Legs(-10,60- offset,sizeX/2,sizeY, 150);
+    legs[7]->createChild(0,0,sizeX,sizeY, 90);
+
+    //Pernas intermediarias direitas
+    legs[5] = new Legs(-10,20 - offset,sizeX/2,sizeY,150);
+    legs[5]->createChild(0,0,sizeX/2,sizeY, 90);        
+    legs[6] = new Legs(-10,40 - offset,sizeX/2,sizeY,150);
+    legs[6]->createChild(0,0,sizeX/2,sizeY, 90);     
+    
+    
+    //legs[0]->setRotation(180);
+    
 }
 
 void Spider::target(GLfloat x, GLfloat y){
@@ -28,6 +66,8 @@ void Spider::target(GLfloat x, GLfloat y){
     shouldMove = 0;
 
     currAngleSpeed = ( (targetAngle - angleDir) > 0)? angSpeed : -angSpeed;
+
+    EstadoAranha = P2;
 
     //Debug
     /* angleDir = targetAngle + angleOffset;
@@ -56,8 +96,12 @@ void Spider::update(double delta){
 
         if(distance <= posThreshold){
             shouldMove = 0;
+            EstadoAranha = P1;
         }
     }
+
+    updateLegs(delta);
+
 }
 
 void Spider::draw(){
@@ -68,22 +112,48 @@ void Spider::draw(){
     glTranslatef(posX,posY, 0);    //Cria uma matriz de transforma��es: transla��o para origem, rota��o e transla��o de volta ao local incial
     glRotatef(angDegDir,0,0,1);
     glTranslatef(-posX,-posY,0);
+    glTranslatef(posX,posY, 0);    
+
+    //Desenha pernas
+    int i;
+    for(i = 0; i < 8; i++){
+        if(legs[i] != NULL)
+            legs[i]->draw();
+    }
 
 						//Todos os par�metros est�o baseados na vari�vel "size", para que a aranha possa ser facilmente modificada
-	float raioXC = 0.3 * size,
+	float raioXC = 0.4 * size,
 		raioYC = 0.4 * size,
-		raioXA = 0.4 * size,
-		raioYA = 0.5 * size,
-		raioOlho = 0.03 * size,
+		raioXA = 0.5 * size,
+		raioYA = 0.6 * size,
+		raioOlho = 0.02 * size,
 
 		offset = size / 4;
 
 
-	drawEllipse(posX, posY - offset, raioXC, raioYC, 0, 0, 0);//Elipse do cefalotorax
-	drawEllipse(posX, posY + offset, raioXA, raioYA, 0, 0, 0);//Elipse do abdome
+    //Pedipalpos
+    drawEllipse(-raioXC*0.2, (-0.9f * raioYC)-offset, 0.2*raioXC, 0.4f * raioYC, 0.05, 0.05 , 0.05);
+    drawEllipse(+raioXC*0.2, (-0.9f * raioYC)-offset, 0.2*raioXC, 0.4f * raioYC, 0.05, 0.05 , 0.05);
 
-	drawEllipse(posX + raioXC / 5, posY - raioYC, raioOlho, raioOlho, 1, 0, 0);	//Desenhando os olhos
-	drawEllipse(posX - raioXC / 5, posY - raioYC, raioOlho, raioOlho, 1, 0, 0);
+	drawEllipse(0, 0 - offset, raioXC, raioYC, 0.1, 0.1, 0.1);//Elipse do cefalotorax
+	drawEllipse(0, 0 + offset*2, raioXA, raioYA, 0.1, 0.1, 0.1);//Elipse do abdome
+    
+
+	drawEllipse(0 + raioXC * 0.1f, 0 - raioYC*0.6f - offset, raioOlho, raioOlho, 1, 0, 0);	//Desenhando os olhos
+	drawEllipse(0 - raioXC * 0.1f, 0 - raioYC*0.6f - offset, raioOlho, raioOlho, 1, 0, 0);
+	drawEllipse(0 - raioXC * 0.3f, 0 - raioYC*0.6f - offset, raioOlho, raioOlho, 1, 0, 0);
+	drawEllipse(0 + raioXC * 0.3f, 0 - raioYC*0.6f - offset, raioOlho, raioOlho, 1, 0, 0);
+    
+	drawEllipse(0 - raioXC * 0.1f, 0 - raioYC * 0.8f - offset, raioOlho, raioOlho, 1, 0, 0);
+	drawEllipse(0 + raioXC * 0.1f, 0 - raioYC * 0.8f - offset, raioOlho, raioOlho, 1, 0, 0);
+	drawEllipse(0 - raioXC * 0.3f, 0 - raioYC * 0.8f - offset, raioOlho, raioOlho, 1, 0, 0);
+	drawEllipse(0 + raioXC * 0.3f, 0 - raioYC * 0.8f - offset, raioOlho, raioOlho, 1, 0, 0);
+    
+     
+    
+    
+
+    
 
 
     glPopMatrix();
@@ -103,4 +173,17 @@ void Spider::drawEllipse(float posX, float posY, float radiusX, float radiusY, f
 		glVertex2f(posX + cos(rad)*radiusX, posY + sin(rad)*radiusY);
 	}
 	glEnd();
+}
+
+void Spider::updateLegs(double delta){
+
+    //animationCounter += delta;
+    float porcentage = animationCounter/animationTime;
+
+    if(EstadoAranha == P2){
+
+    }
+    else if(EstadoAranha == P3){
+
+    }
 }
