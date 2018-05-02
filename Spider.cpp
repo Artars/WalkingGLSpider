@@ -15,32 +15,34 @@ Spider::Spider(GLfloat x,GLfloat y,GLfloat s,GLfloat angS,GLfloat froS){
     GLfloat sizeX = size;
     GLfloat sizeY = size/16;
 
+    float offset = size / 2;
+
     //Perna dianteira direita
-    legs[0] = new Legs(10,10,sizeX,sizeY,60);
+    legs[0] = new Legs(10,10 - offset,sizeX,sizeY,60);
     legs[0]->createChild(0,0,sizeX/2,sizeY, -30);    
 
     //Perna traseira direita
-    legs[3] = new Legs(10,60,sizeX/2,sizeY, 30);
+    legs[3] = new Legs(10,60- offset,sizeX/2,sizeY, 30);
     legs[3]->createChild(0,0,sizeX,sizeY, -90);
 
     //Pernas intermediarias direitas
-    legs[1] = new Legs(10,20,sizeX/2,sizeY,30);
+    legs[1] = new Legs(10,20- offset,sizeX/2,sizeY,30);
     legs[1]->createChild(0,0,sizeX/2,sizeY, -90);        
-    legs[2] = new Legs(10,40,sizeX/2,sizeY,30);
+    legs[2] = new Legs(10,40- offset,sizeX/2,sizeY,30);
     legs[2]->createChild(0,0,sizeX/2,sizeY, -90);      
 
     //Perna dianteira esquerda
-    legs[4] = new Legs(-10,10,sizeX,sizeY,120);
+    legs[4] = new Legs(-10,10 - offset,sizeX,sizeY,120);
     legs[4]->createChild(0,0,sizeX/2,sizeY, 30);    
 
     //Perna traseira equerda
-    legs[7] = new Legs(-10,60,sizeX/2,sizeY, 150);
+    legs[7] = new Legs(-10,60- offset,sizeX/2,sizeY, 150);
     legs[7]->createChild(0,0,sizeX,sizeY, 90);
 
     //Pernas intermediarias direitas
-    legs[5] = new Legs(-10,20,sizeX/2,sizeY,150);
+    legs[5] = new Legs(-10,20 - offset,sizeX/2,sizeY,150);
     legs[5]->createChild(0,0,sizeX/2,sizeY, 90);        
-    legs[6] = new Legs(-10,40,sizeX/2,sizeY,150);
+    legs[6] = new Legs(-10,40 - offset,sizeX/2,sizeY,150);
     legs[6]->createChild(0,0,sizeX/2,sizeY, 90);     
     
     
@@ -120,20 +122,36 @@ void Spider::draw(){
     }
 
 						//Todos os par�metros est�o baseados na vari�vel "size", para que a aranha possa ser facilmente modificada
-	float raioXC = 0.3 * size,
+	float raioXC = 0.4 * size,
 		raioYC = 0.4 * size,
-		raioXA = 0.4 * size,
-		raioYA = 0.5 * size,
-		raioOlho = 0.03 * size,
+		raioXA = 0.5 * size,
+		raioYA = 0.6 * size,
+		raioOlho = 0.02 * size,
 
 		offset = size / 4;
 
 
-	drawEllipse(0, 0 - offset, raioXC, raioYC, 0, 0, 0);//Elipse do cefalotorax
-	drawEllipse(0, 0 + offset, raioXA, raioYA, 0, 0, 0);//Elipse do abdome
+    //Pedipalpos
+    drawEllipse(-raioXC*0.2, (-0.9f * raioYC)-offset, 0.2*raioXC, 0.4f * raioYC, 0.05, 0.05 , 0.05);
+    drawEllipse(+raioXC*0.2, (-0.9f * raioYC)-offset, 0.2*raioXC, 0.4f * raioYC, 0.05, 0.05 , 0.05);
 
-	drawEllipse(0 + raioXC / 5, 0 - raioYC, raioOlho, raioOlho, 1, 0, 0);	//Desenhando os olhos
-	drawEllipse(0 - raioXC / 5, 0 - raioYC, raioOlho, raioOlho, 1, 0, 0);
+	drawEllipse(0, 0 - offset, raioXC, raioYC, 0.1, 0.1, 0.1);//Elipse do cefalotorax
+	drawEllipse(0, 0 + offset*2, raioXA, raioYA, 0.1, 0.1, 0.1);//Elipse do abdome
+    
+
+	drawEllipse(0 + raioXC * 0.1f, 0 - raioYC*0.6f - offset, raioOlho, raioOlho, 1, 0, 0);	//Desenhando os olhos
+	drawEllipse(0 - raioXC * 0.1f, 0 - raioYC*0.6f - offset, raioOlho, raioOlho, 1, 0, 0);
+	drawEllipse(0 - raioXC * 0.3f, 0 - raioYC*0.6f - offset, raioOlho, raioOlho, 1, 0, 0);
+	drawEllipse(0 + raioXC * 0.3f, 0 - raioYC*0.6f - offset, raioOlho, raioOlho, 1, 0, 0);
+    
+	drawEllipse(0 - raioXC * 0.1f, 0 - raioYC * 0.8f - offset, raioOlho, raioOlho, 1, 0, 0);
+	drawEllipse(0 + raioXC * 0.1f, 0 - raioYC * 0.8f - offset, raioOlho, raioOlho, 1, 0, 0);
+	drawEllipse(0 - raioXC * 0.3f, 0 - raioYC * 0.8f - offset, raioOlho, raioOlho, 1, 0, 0);
+	drawEllipse(0 + raioXC * 0.3f, 0 - raioYC * 0.8f - offset, raioOlho, raioOlho, 1, 0, 0);
+    
+     
+    
+    
 
     
 
@@ -159,4 +177,13 @@ void Spider::drawEllipse(float posX, float posY, float radiusX, float radiusY, f
 
 void Spider::updateLegs(double delta){
 
+    //animationCounter += delta;
+    float porcentage = animationCounter/animationTime;
+
+    if(EstadoAranha == P2){
+
+    }
+    else if(EstadoAranha == P3){
+
+    }
 }
