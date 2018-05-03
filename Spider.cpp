@@ -17,6 +17,9 @@ Spider::Spider(GLfloat x,GLfloat y,GLfloat s,GLfloat angS,GLfloat froS){
 
     float offset = size / 2;
 
+    EstadoAranha = P1;
+    animationCounter = animationTime/2;
+
     //Perna dianteira direita
     legs[0] = new Legs(10,10 - offset,sizeX,sizeY,60);
     legs[0]->createChild(0,0,sizeX/2,sizeY, -30);    
@@ -65,9 +68,17 @@ void Spider::target(GLfloat x, GLfloat y){
     reachedAngle = 0;
     shouldMove = 0;
 
-    currAngleSpeed = ( (targetAngle - angleDir) > 0)? angSpeed : -angSpeed;
+    //Ajuste de angulo para que ele fique dentro do intervalo de -180 até 180
+    if(angleDir > 180) angleDir =  -(360 - 180);
+    if(angleDir < -180) angleDir = (360 + angleDir);
 
-    EstadoAranha = P2;
+
+    GLfloat deltaAngle = targetAngle - angleDir;
+
+    currAngleSpeed = ( (deltaAngle) > 0)? angSpeed : -angSpeed;
+
+    EstadoAranha = ( (deltaAngle) > 0)? P3 : P2;
+
 
     //Debug
     /* angleDir = targetAngle + angleOffset;
@@ -97,6 +108,7 @@ void Spider::update(double delta){
         if(distance <= posThreshold){
             shouldMove = 0;
             EstadoAranha = P1;
+            //animationCounter = animationTime/2;
         }
     }
 
@@ -175,15 +187,86 @@ void Spider::drawEllipse(float posX, float posY, float radiusX, float radiusY, f
 	glEnd();
 }
 
+/*
+    Vão ser utilizados cossenos para a animação, de tal maneira que o intervalo utilizado da onda seja de 0 a PI
+    Dessa maneira, é calculado uma velocidade angular para tal
+    Quando em P2, o tempo é crescente. Quando em P3, o tempo é decrescente
+    Quando em P1, o tempo é parado na metade do ciclo, posição equivalente a 0, onde o cosseno não interfere
+*/
+
 void Spider::updateLegs(double delta){
 
-    //animationCounter += delta;
-    float porcentage = animationCounter/animationTime;
+    float angularSpeed = M_PI/animationTime;
+
+    GLfloat sizeX = size;
+    GLfloat sizeY = size/16;
+
+
+    //Uso de cossenos pra rotação
+    legs[0]->setRotation(60 + 5 * cos(angularSpeed * animationCounter));
+    legs[1]->setRotation(30 - 8 * cos(angularSpeed * animationCounter));
+    legs[2]->setRotation(30 + 8 * cos(angularSpeed * animationCounter));
+    legs[3]->setRotation(30 - 6 * cos(angularSpeed * animationCounter));
+
+    legs[4]->setRotation(120 + 5 * cos(angularSpeed * animationCounter));
+    legs[5]->setRotation(150 - 8 * cos(angularSpeed * animationCounter));
+    legs[6]->setRotation(150 + 8 * cos(angularSpeed * animationCounter));
+    legs[7]->setRotation(150 - 6 * cos(angularSpeed * animationCounter));
+    
+    //Uso de cossenos para escala do lado direito
+    legs[0]->setScale(sizeX - sizeX/8 *cos(angularSpeed * animationCounter), sizeY);
+    //Necessidade de ajustar o filho, devido à mudança do final da perna
+    legs[0]->getChild()->setPosition(sizeX - sizeX/8 *cos(angularSpeed * animationCounter), legs[0]->getChild()->position[1]);
+    legs[0]->getChild()->setScale(sizeX/4 - sizeX/8*cos(angularSpeed * animationCounter), sizeY);
+
+    legs[1]->getChild()->setScale(sizeX*0.3 - sizeX*0.1*cos(angularSpeed * animationCounter), sizeY);
+    legs[2]->getChild()->setScale(sizeX*0.3 + sizeX*0.1*cos(angularSpeed * animationCounter), sizeY);
+    
+
+    legs[3]->getChild()->setScale(sizeX*0.75 - 0.25*sizeX* cos(angularSpeed * animationCounter), sizeY);
+
+    //Uso de cossenos para escala do lado esquerdo
+    legs[4]->setScale(sizeX + sizeX/8 *cos(angularSpeed * animationCounter), sizeY);
+    legs[4]->getChild()->setPosition(sizeX + sizeX/8 *cos(angularSpeed * animationCounter), legs[0]->getChild()->position[1]);
+    legs[4]->getChild()->setScale(sizeX/4 + sizeX/8*cos(angularSpeed * animationCounter), sizeY);
+
+    legs[5]->getChild()->setScale(sizeX*0.3 + sizeX*0.1*cos(angularSpeed * animationCounter), sizeY);
+    legs[6]->getChild()->setScale(sizeX*0.3 - sizeX*0.1*cos(angularSpeed * animationCounter), sizeY);
+
+    legs[7]->getChild()->setScale(sizeX*0.75 + 0.25*sizeX* cos(angularSpeed * animationCounter), sizeY);
+    
 
     if(EstadoAranha == P2){
-
+        animationCounter -= delta/1000;
     }
     else if(EstadoAranha == P3){
-
+        animationCounter += delta/1000;
     }
+    //Fazer suavização para o ponto de parada da animação
+    else if(EstadoAranha == P1){
+        if((animationCounter - (animationTime)/2) > 0){
+            animationCounter -= delta/1000;
+            if(((animationCounter - (animationTime)/2) < 0)){
+                animationCounter = (animationTime)/2;
+            }
+        }
+        else if((animationCounter - (animationTime)/2) < 0) {
+            animationCounter += delta/1000;
+            if(((animationCounter - (animationTime)/2) > 0)){
+                animationCounter = (animationTime)/2;
+            }
+        }
+    }
+
+
+    if(animationCounter < 0){
+        EstadoAranha = P3;
+        animationCounter = 0;
+    }
+
+    if(animationCounter > animationTime){
+        EstadoAranha = P2;
+        animationCounter = animationTime;
+    }
+
 }

@@ -37,8 +37,8 @@ class Spider {
     GLfloat angleOffset = 3.14/2;
     Legs* legs[8];
     float animationCounter;
-    float animationTime = 0.6;
-    int EstadoAranha = P1;
+    float animationTime = 1;
+    int EstadoAranha = P2;
 
     public:
         Spider (GLfloat x,GLfloat y,GLfloat s,GLfloat angS,GLfloat froS);
