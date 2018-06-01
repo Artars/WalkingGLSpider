@@ -45,7 +45,7 @@ void drawGrid(){
 
 Transform *test = new Transform(Vector3(0,0,0),Vector3(1,1,1),Vector3(90,0,0));
 
-char path[] = "Spider.obj";
+char path[] = "cone.obj";
 
 void reshapeCallback(int w, int h)
 {
@@ -64,15 +64,15 @@ int main(int argc, char* argv[])
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 
-  GLint screen_width  = glutGet(GLUT_SCREEN_WIDTH),
-        screen_height = glutGet(GLUT_SCREEN_HEIGHT);
+  GLint screen_WIDTH  = glutGet(GLUT_SCREEN_WIDTH),
+        screen_HEIGHT = glutGet(GLUT_SCREEN_HEIGHT);
 
-  glutInitWindowPosition((screen_width - WINDOW_WIDTH) / 2, (screen_height - WINDOW_WIDTH) / 2);
+  glutInitWindowPosition((screen_WIDTH - WINDOW_WIDTH) / 2, (screen_HEIGHT - WINDOW_WIDTH) / 2);
   glutInitWindowSize(WINDOW_WIDTH, WINDOW_WIDTH);
   glutCreateWindow("2D Spider");
 
   test->loadModel(path);
-  test->setColor(0.2,0.2,0.2);
+  test->setColor(1.0,0.0,0.0);
 
   init();
 
@@ -110,9 +110,35 @@ void render()
     gluLookAt(pos[0],pos[1],pos[2],0,0,0,0,0,1);
 
     drawGrid();
+    glViewport(0, WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
+    glLoadIdentity();
+    gluLookAt(6.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+
+    //glRotatef(-90.0, 1.0, 0.0, 0.0);
+
+    test->draw();
+   
+  /** Desenha a janela mais a direita */
+    glViewport(WINDOW_WIDTH/2, WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
+    glLoadIdentity();
+    gluLookAt(0.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0);
+    //glRotatef(-90.0, 1.0, 0.0, 0.0);
+  
     test->draw();
     
+    glViewport(0, -WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
+    glLoadIdentity();
+    gluLookAt(0.0, 0.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    //glRotatef(-90.0, 1.0, 0.0, 0.0);
+  
+    test->draw();
 
+    glViewport(WINDOW_WIDTH/2, -WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
+    glLoadIdentity();
+    gluLookAt(0.0, 0.0, 10.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    //glRotatef(-90.0, 1.0, 0.0, 0.0);
+  
+    test->draw();
 
   glFlush();
 }
