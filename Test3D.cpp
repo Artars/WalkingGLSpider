@@ -112,7 +112,7 @@ void render()
     drawGrid();
     glViewport(0, WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
     glLoadIdentity();
-    gluLookAt(6.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(6.0, 0.0, 0.0, test->position.x, test->position.y, test->position.z, 0.0, 1.0, 0.0);
 
     //glRotatef(-90.0, 1.0, 0.0, 0.0);
 
@@ -121,21 +121,21 @@ void render()
   /** Desenha a janela mais a direita */
     glViewport(WINDOW_WIDTH/2, WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
     glLoadIdentity();
-    gluLookAt(0.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0);
+    gluLookAt(0.0, 6.0, 0.0, test->position.x, test->position.y, test->position.z , 1.0, 0.0, 0.0);
     //glRotatef(-90.0, 1.0, 0.0, 0.0);
   
     test->draw();
     
     glViewport(0, -WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
     glLoadIdentity();
-    gluLookAt(0.0, 0.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(0.0, 0.0, 6.0, test->position.x, test->position.y, test->position.z, 0.0, 1.0, 0.0);
     //glRotatef(-90.0, 1.0, 0.0, 0.0);
   
     test->draw();
 
     glViewport(WINDOW_WIDTH/2, -WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
     glLoadIdentity();
-    gluLookAt(0.0, 0.0, 10.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(0.0, 0.0, 10.0, test->position.x, test->position.y, test->position.z, 0.0, 1.0, 0.0);
     //glRotatef(-90.0, 1.0, 0.0, 0.0);
   
     test->draw();
