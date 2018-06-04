@@ -4,7 +4,7 @@
 #include <cmath>
 #include "Transform.h"
 #include "Vector3.h"
-#include "Objector.h"
+#include "Spider3D.h"
 
 using namespace std;
 
@@ -21,7 +21,7 @@ void drawEllipse(float posX, float posY, float radiusX, float radiusY, float r, 
 
 int dt = 1000/60;
 
-GLfloat pos[3] = {10,0,10};
+GLfloat pos[3] = {2,0,2};
 GLfloat angle = 0;
 GLfloat speed = 0.1;
 void keyboard_special_keys(GLint key, GLint x, GLint y);
@@ -43,7 +43,7 @@ void drawGrid(){
 
 //Legs perna = Legs(100, 200, 300, 400, 600, 400);
 
-Transform *test = new Transform(Vector3(0,0,0),Vector3(1,1,1),Vector3(90,0,0));
+Spider3D *test = new Spider3D(Vector3(0,0,0),Vector3(1,1,1),Vector3(0,0,0));
 
 char path[] = "Spider.obj";
 
@@ -62,7 +62,7 @@ void reshapeCallback(int w, int h)
 int main(int argc, char* argv[])
 {
   glutInit(&argc, argv);
-  glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+  glutInitDisplayMode(GLUT_SINGLE | GLUT_DEPTH | GLUT_RGB);
 
   GLint screen_width  = glutGet(GLUT_SCREEN_WIDTH),
         screen_height = glutGet(GLUT_SCREEN_HEIGHT);
@@ -71,7 +71,13 @@ int main(int argc, char* argv[])
   glutInitWindowSize(WINDOW_WIDTH, WINDOW_WIDTH);
   glutCreateWindow("2D Spider");
 
-  test->loadModel(path);
+  glDepthMask(GL_TRUE);
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
+
+
+
+  //test->loadModel(path);
   test->setColor(0.2,0.2,0.2);
 
   init();
@@ -102,7 +108,7 @@ void init()
 
 void render()
 {
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   //std::cout<<"Desenho\n";
 
@@ -151,15 +157,15 @@ void mouse_click(GLint button, GLint action, GLint x, GLint y)
 void keyboard_special_keys(GLint key, GLint x, GLint y) {
     if(key == GLUT_KEY_RIGHT){
         angle += speed;
-        pos[0] = cos(angle)*10;
-        pos[1] = sin(angle)*10;
-        pos[2] = 10;
+        pos[0] = cos(angle)*2;
+        pos[1] = sin(angle)*2;
+        pos[2] = 2;
     }
     else if(key == GLUT_KEY_LEFT){
         angle -= speed;
-        pos[0] = cos(angle)*10;
-        pos[1] = sin(angle)*10;
-        pos[2] = 10;
+        pos[0] = cos(angle)*2;
+        pos[1] = sin(angle)*2;
+        pos[2] = 2;
     }
     glutPostRedisplay();
 }
