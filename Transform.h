@@ -20,10 +20,10 @@ class Transform{
         void draw();
         int loadModel(char *path);
         void setColor(GLfloat r, GLfloat g, GLfloat b);
+        vector<Transform*> *children = NULL;        
     protected:
         GLfloat color[3];
         void drawItself();
-        vector<Transform*> *children = NULL;
         vector<Vector3> *vertices = NULL;
         vector<unsigned int> *faces = NULL;
         bool hasMesh = false;

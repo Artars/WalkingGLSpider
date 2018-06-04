@@ -42,10 +42,11 @@ void Transform::draw() {
 
     GLfloat angle = rotation.length();
     Vector3 rotDir = Vector3(rotation);
+    rotDir.normalize();
 
     glPushMatrix();
     glTranslatef(position.x,position.y, position.z);    //Cria uma matriz de transforma��es: transla��o para origem, rota��o e transla��o de volta ao local incial
-    glRotatef(angle,rotDir.x,rotDir.y,1);
+    glRotatef(angle,rotDir.x,rotDir.y,rotDir.z);
     glScalef(scale.x,scale.y,scale.z);
 
     //Draw children

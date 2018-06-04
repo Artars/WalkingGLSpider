@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
 
   glutInitWindowPosition((screen_width - WINDOW_WIDTH) / 2, (screen_height - WINDOW_WIDTH) / 2);
   glutInitWindowSize(WINDOW_WIDTH, WINDOW_WIDTH);
-  glutCreateWindow("2D Spider");
+  glutCreateWindow("3D Spider");
 
   glDepthMask(GL_TRUE);
   glEnable(GL_DEPTH_TEST);
@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
 
 
   //test->loadModel(path);
-  test->setColor(0.2,0.2,0.2);
+  test->setColor(0.1,0.1,0.1);
 
   init();
 
@@ -157,15 +157,15 @@ void mouse_click(GLint button, GLint action, GLint x, GLint y)
 void keyboard_special_keys(GLint key, GLint x, GLint y) {
     if(key == GLUT_KEY_RIGHT){
         angle += speed;
-        pos[0] = cos(angle)*2;
-        pos[1] = sin(angle)*2;
-        pos[2] = 2;
+        pos[0] = cos(angle)*3;
+        pos[1] = sin(angle)*3;
+        pos[2] = 0;
     }
     else if(key == GLUT_KEY_LEFT){
         angle -= speed;
-        pos[0] = cos(angle)*2;
-        pos[1] = sin(angle)*2;
-        pos[2] = 2;
+        pos[0] = cos(angle)*3;
+        pos[1] = sin(angle)*3;
+        pos[2] = 0;
     }
     glutPostRedisplay();
 }
