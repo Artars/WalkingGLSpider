@@ -47,7 +47,7 @@ void drawGrid(){
 
 //Legs perna = Legs(100, 200, 300, 400, 600, 400);
 
-Spider3D *parker = new Spider3D(Vector3(0,0,0),Vector3(1,1,1),Vector3(0,0,0));
+Spider3D *parker = new Spider3D(Vector3(0,0,0.2),Vector3(1,1,1),Vector3(0,0,0));
 
 char path[] = "Spider.obj";
 
@@ -118,7 +118,7 @@ void render()
   //std::cout<<"Desenho\n";
 
     glLoadIdentity();
-    gluLookAt(1,1,4,parker->position.x,parker->position.y,parker->position.z,0,0,1);
+    gluLookAt(1,1,0,parker->position.x,parker->position.y,parker->position.z,0,0,1);
 
     drawGrid();
     parker->draw();
