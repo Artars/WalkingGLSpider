@@ -83,10 +83,10 @@ int Transform::loadModel(char *path) {
     }
     else if(result == 1){
         if(vertices != NULL)
-            free(vertices);
+            delete(vertices);
         vertices = o->vertices;
         if(faces != NULL)
-            free(faces);
+            delete(faces);
         faces = o->faces;
         hasMesh = true;
         for(std::vector<unsigned int>::iterator it = faces->begin(); it != faces->end(); ++it){

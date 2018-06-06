@@ -32,16 +32,22 @@ void keyboard_special_keys_up(GLint key, GLint x, GLint y);
 
 void drawGrid(){
     int i, j;
+    GLfloat maxX = 10,maxY = 10, size = 0.3;
     glColor3f(0,0,0);
-    for(i = -100; i < 99; i++){
-        glBegin(GL_LINES);
-        glVertex3f(-100,i,0);
-        glVertex3f(100,i,0);
+    for(i = -maxX; i < maxX; i++){
+      for(j = -maxY; j < maxY; j++){
+        if((i+j) % 2 == 0){
+          glColor3f(1,0,1);
+        }
+        else
+          glColor3f(0,0,0);
+        glBegin(GL_QUADS);
+        glVertex3f(maxX*i*size,maxY*j*size,0);
+        glVertex3f(maxX*(i+1)*size,maxY*j*size,0);        
+        glVertex3f(maxX*(i+1)*size,maxY*(j+1)*size,0);
+        glVertex3f(maxX*i*size,maxY*(j+1)*size,0);
         glEnd();
-        glBegin(GL_LINES);
-        glVertex3f(i,-100,0);
-        glVertex3f(i,100,0);
-        glEnd();
+      }
     }
 }
 
@@ -59,7 +65,7 @@ void reshapeCallback(int w, int h)
   /** Define o volume de vista */
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective(65.0, (GLfloat) w/(GLfloat) h, 1.0, 100.0);
+  gluPerspective(65.0, (GLfloat) w/(GLfloat) h, 0.01, 100.0);
   glMatrixMode(GL_MODELVIEW);
 }
 
@@ -118,12 +124,9 @@ glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   //std::cout<<"Desenho\n";
 
+    glViewport(0, 0, WINDOW_WIDTH/2, WINDOW_HEIGHT/2);
     glLoadIdentity();
-    gluLookAt(pos[0],pos[1],pos[2],0,0,0,0,0,1);
-
-    glViewport(0, WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
-    glLoadIdentity();
-    gluLookAt(6.0, 0.0, 0.0, parker->position.x, parker->position.y, parker->position.z, 0.0, 0, 1.0);
+    gluLookAt(0.01, 3.0, 0.5, parker->position.x, parker->position.y, parker->position.z, 0.0, 0, 1.0);
 
     //glRotatef(-90.0, 1.0, 0.0, 0.0);
     drawGrid();
@@ -131,25 +134,25 @@ glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     parker->draw();
    
   /** Desenha a janela mais a direita */
-    glViewport(WINDOW_WIDTH/2, WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
+    glViewport(0, WINDOW_HEIGHT/2, WINDOW_WIDTH/2, WINDOW_HEIGHT/2);
     glLoadIdentity();
-    gluLookAt(0.0, 6.0, 0.0, parker->position.x, parker->position.y, parker->position.z , 0, 0.0, 1.0);
+    gluLookAt(3.0, 0.01, 0.5, parker->position.x, parker->position.y, parker->position.z , 0, 0.0, 1.0);
     //glRotatef(-90.0, 1.0, 0.0, 0.0);
 
     drawGrid();      
     parker->draw();
     
-    glViewport(0, -WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
+    glViewport(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, WINDOW_WIDTH/2, WINDOW_HEIGHT/2);
     glLoadIdentity();
-    gluLookAt(0.0, 0.0, 6.0, parker->position.x, parker->position.y, parker->position.z, 0.0, 0, 1.0);
+    gluLookAt(0.01, 0.01, 3.0, parker->position.x, parker->position.y, parker->position.z, 0.0, 0.0, 1.0);
     //glRotatef(-90.0, 1.0, 0.0, 0.0);
   
     drawGrid();    
     parker->draw();
 
-    glViewport(WINDOW_WIDTH/2, -WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
+    glViewport(WINDOW_WIDTH/2, 0, WINDOW_WIDTH/2, WINDOW_HEIGHT/2);
     glLoadIdentity();
-    gluLookAt(0.0, 0.0, 10.0, parker->position.x, parker->position.y, parker->position.z, 0.0, 0, 1.0);
+    gluLookAt(5, 5, 5.0, parker->position.x, parker->position.y, parker->position.z, 0.0, 0.0, 1.0);
     //glRotatef(-90.0, 1.0, 0.0, 0.0);
   
     drawGrid();    
