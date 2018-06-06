@@ -113,17 +113,47 @@ void init()
 
 void render()
 {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   //std::cout<<"Desenho\n";
 
     glLoadIdentity();
-    gluLookAt(1,1,0,parker->position.x,parker->position.y,parker->position.z,0,0,1);
+    gluLookAt(pos[0],pos[1],pos[2],0,0,0,0,0,1);
 
+    glViewport(0, WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
+    glLoadIdentity();
+    gluLookAt(6.0, 0.0, 0.0, parker->position.x, parker->position.y, parker->position.z, 0.0, 0, 1.0);
+
+    //glRotatef(-90.0, 1.0, 0.0, 0.0);
     drawGrid();
+    
+    parker->draw();
+   
+  /** Desenha a janela mais a direita */
+    glViewport(WINDOW_WIDTH/2, WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
+    glLoadIdentity();
+    gluLookAt(0.0, 6.0, 0.0, parker->position.x, parker->position.y, parker->position.z , 0, 0.0, 1.0);
+    //glRotatef(-90.0, 1.0, 0.0, 0.0);
+
+    drawGrid();      
     parker->draw();
     
+    glViewport(0, -WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
+    glLoadIdentity();
+    gluLookAt(0.0, 0.0, 6.0, parker->position.x, parker->position.y, parker->position.z, 0.0, 0, 1.0);
+    //glRotatef(-90.0, 1.0, 0.0, 0.0);
+  
+    drawGrid();    
+    parker->draw();
 
+    glViewport(WINDOW_WIDTH/2, -WINDOW_HEIGHT/4, WINDOW_WIDTH/2, WINDOW_HEIGHT);
+    glLoadIdentity();
+    gluLookAt(0.0, 0.0, 10.0, parker->position.x, parker->position.y, parker->position.z, 0.0, 0, 1.0);
+    //glRotatef(-90.0, 1.0, 0.0, 0.0);
+  
+    drawGrid();    
+    parker->draw();
 
   glFlush();
 }
