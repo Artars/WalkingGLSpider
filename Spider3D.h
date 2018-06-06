@@ -21,7 +21,7 @@ deve-se alternar entre P 2 e P 3 até alcançar o ponto de clique, aonde ela ret
 */
 
 enum Estados {
-    P1,P2,P3,anteriorP2,anteriorP3
+    P1,P2,P3
 };
 
 class Spider3D : public Transform {

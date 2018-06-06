@@ -91,7 +91,6 @@ int Transform::loadModel(char *path) {
         hasMesh = true;
         for(std::vector<unsigned int>::iterator it = faces->begin(); it != faces->end(); ++it){
             Vector3 vert = (*vertices)[*it-1];
-            std::cout << vert;
         }
     }
 

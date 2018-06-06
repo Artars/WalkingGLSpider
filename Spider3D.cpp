@@ -167,9 +167,7 @@ void Spider3D::update(double delta){
     }
 
     if(axisRot == 0 && axisFow == 0 && currentState != P1){
-        /*if(currentState == P2){currentState == anteriorP2;}
-        else if(currentState == P3){currentState == anteriorP3;}
-        else*/ currentState = P1;    
+        currentState = P1; 
     }
 
     updateLegs(delta);
@@ -179,24 +177,26 @@ void Spider3D::update(double delta){
 void Spider3D::updateLegs(double delta) {
     float angularSpeed = M_PI/animationTime;
 	float risingTime = (3.14)*(animationCounter/animationTime);
-    int re2,fo2,re3,fo3;
+    int re2,fo2,re3,fo3; //Determinam quais patas estarao levantando
 	
-	if(axisFow == -1){
+	if(axisFow == -1){//Aranha esta indo para frente
         re2 = 0; fo2 = 1; re3 = 0; fo3 = 1;
     }
-    else if(axisFow == 1){
+    else if(axisFow == 1){//Aranha esta indo para tras
         re2 = 1; fo2 = 0; re3 = 1; fo3 = 0;
     }
-    else if(axisRot == -1){
+    else if(axisRot == -1){//Aranha esta virando
         re2 = 0; fo2 = 1; re3 = 1; fo3 = 0;
     }
 	else if(axisRot == 1){
         re2 = 1; fo2 = 0; re3 = 0; fo3 = 1;
     }
+    else{
+        re2 = 0; fo2 = 0; re3 = 0; fo3 = 0;
+    }
 
-        
     if(currentState == P2){
-	
+
 		(*children)[1]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime)*re2,0, +8*cos(angularSpeed * animationCounter));
 		(*children)[2]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime)*fo2,0, -4*cos(angularSpeed * animationCounter));
 		(*children)[3]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime)*re2,0, +4*cos(angularSpeed * animationCounter));
@@ -223,50 +223,47 @@ void Spider3D::updateLegs(double delta) {
 	
         animationCounter += delta/1000;
     }
-    //Fazer suavização para o ponto de parada da animação
-    else if(currentState == 1){    //(currentState == anteriorP2 || currentState == anteriorP3){
-        int up2=fo2+re2, up3=fo3+re3;
-        if(up2 > 1){up2=1;}
-        if(up3 > 1){up3=1;}
+    else if(currentState == P1){         //Fazer suavização para o ponto de parada da animação
+        
         
         if((animationCounter - (animationTime)/2) > 0){
             animationCounter -= delta/1000;
             if(((animationCounter - (animationTime)/2) < 0)){
                 animationCounter = (animationTime)/2;
             }
+			
+			(*children)[1]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime+1.57)*fo2,0, +8*cos(angularSpeed * animationCounter));
+			(*children)[2]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime+1.57)*re2,0, -4*cos(angularSpeed * animationCounter));
+			(*children)[3]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime+1.57)*fo2,0, +4*cos(angularSpeed * animationCounter));
+			(*children)[4]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime+1.57)*re2,0, -8*cos(angularSpeed * animationCounter));
+			
+			(*children)[5]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime+1.57)*re3,0, +8*cos(angularSpeed * animationCounter));
+			(*children)[6]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime+1.57)*fo3,0, -4*cos(angularSpeed * animationCounter));
+			(*children)[7]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime+1.57)*re3,0, +4*cos(angularSpeed * animationCounter));
+			(*children)[8]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime+1.57)*fo3,0, -8*cos(angularSpeed * animationCounter));	
+			
+
         }
         else if((animationCounter - (animationTime)/2) < 0) {
             animationCounter += delta/1000;
             if(((animationCounter - (animationTime)/2) > 0)){
                 animationCounter = (animationTime)/2;
             }
+			
+			(*children)[1]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime-1.57)*re2,0, +8*cos(angularSpeed * animationCounter));
+			(*children)[2]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime-1.57)*fo2,0, -4*cos(angularSpeed * animationCounter));
+			(*children)[3]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime-1.57)*re2,0, +4*cos(angularSpeed * animationCounter));
+			(*children)[4]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime-1.57)*fo2,0, -8*cos(angularSpeed * animationCounter));
+			
+			(*children)[5]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime-1.57)*fo3,0, +8*cos(angularSpeed * animationCounter));
+			(*children)[6]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime-1.57)*re3,0, -4*cos(angularSpeed * animationCounter));
+			(*children)[7]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime-1.57)*fo3,0, +4*cos(angularSpeed * animationCounter));
+			(*children)[8]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime-1.57)*re3,0, -8*cos(angularSpeed * animationCounter));
+			
+			
         }
-        
-        // if(currentState == anteriorP2){
-        
-        //     (*children)[1]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime)*re2,0, +8*cos(angularSpeed * animationCounter));
-        //     (*children)[2]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime)*fo2,0, -4*cos(angularSpeed * animationCounter));
-        //     (*children)[3]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime)*re2,0, +4*cos(angularSpeed * animationCounter));
-        //     (*children)[4]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime)*fo2,0, -8*cos(angularSpeed * animationCounter));
-            
-        //     (*children)[5]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime)*fo3,0, +8*cos(angularSpeed * animationCounter));
-        //     (*children)[6]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime)*re3,0, -4*cos(angularSpeed * animationCounter));
-        //     (*children)[7]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime)*fo3,0, +4*cos(angularSpeed * animationCounter));
-        //     (*children)[8]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime)*re3,0, -8*cos(angularSpeed * animationCounter));
-        // }
-        // else if(currentState == anteriorP3){
-        //     (*children)[1]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime)*fo2,0, +8*cos(angularSpeed * animationCounter));
-        //     (*children)[2]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime)*re2,0, -4*cos(angularSpeed * animationCounter));
-        //     (*children)[3]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime)*fo2,0, +4*cos(angularSpeed * animationCounter));
-        //     (*children)[4]->rotation = Vector3(-15,0,0)+Vector3(-15*sin(risingTime)*re2,0, -8*cos(angularSpeed * animationCounter));
-            
-        //     (*children)[5]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime)*re3,0, +8*cos(angularSpeed * animationCounter));
-        //     (*children)[6]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime)*fo3,0, -4*cos(angularSpeed * animationCounter));
-        //     (*children)[7]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime)*re3,0, +4*cos(angularSpeed * animationCounter));
-        //     (*children)[8]->rotation = Vector3(15,0,0)+Vector3(15*sin(risingTime)*fo3,0, -8*cos(angularSpeed * animationCounter));	
-        // }
+		
 
-        // if(animationCounter == 0){currentState = P1;}
     }
 	
 	if(animationCounter < 0){
